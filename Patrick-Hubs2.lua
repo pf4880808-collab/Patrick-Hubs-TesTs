@@ -15,7 +15,9 @@ local WHITE = Color3.fromRGB(255, 255, 255)
 local WIDTH, HEIGHT = 330, 430
 
 local Old = PlayerGui:FindFirstChild("PatrickHubs")
-if Old then Old:Destroy() end
+if Old then
+    Old:Destroy()
+end
 
 local GUI = Instance.new("ScreenGui")
 GUI.Name = "PatrickHubs"
@@ -86,7 +88,7 @@ local function Tween(obj, duration, properties, style)
 end
 
 --========================================================
--- SLOTS PARA COLAR CÓDIGOS
+-- SLOTS PARA OS CÓDIGOS
 --========================================================
 
 local ScriptCodes = {
@@ -99,7 +101,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Wzeus-NTH/Wzeusno1/ma
 ]=],
 
     ["Pulse Hub"] = [=[
-  loadstring(game:HttpGet("https://raw.githubusercontent.com/PulseZax/Loader/refs/heads/main/.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/PulseZax/Loader/refs/heads/main/.lua"))(
 ]=],
 
     ["Ajjans Hub"] = [=[
@@ -111,7 +113,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/miirandahub/loader/re
 ]=],
 
     ["Fyy Community"] = [=[
-loadstring(game:("https://FyyCommunity.my.id"))()
+loadstring(game:HttpGet("https://FyyCommunity.my.id"))()
 ]=],
 
     ["Chilli Hub"] = [=[
@@ -124,7 +126,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/WhiteX1208/Scripts/re
 }
 
 --========================================================
--- LISTA DE SCRIPTS
+-- SCRIPTS E CATEGORIAS
 --========================================================
 
 local Options = {
@@ -139,7 +141,7 @@ local Options = {
 }
 
 --========================================================
--- TELA DE CARREGAMENTO
+-- LOADING
 --========================================================
 
 local Loading = Instance.new("Frame")
@@ -156,16 +158,20 @@ Corner(Loading, 18)
 Stroke(Loading, 2)
 
 local LoadingTitle = Label(
-    Loading, "Patrick-Hubs",
+    Loading,
+    "Patrick-Hubs",
     UDim2.new(1, -20, 0, 40),
-    UDim2.new(0, 10, 0.31, 0), 22
+    UDim2.new(0, 10, 0.31, 0),
+    22
 )
 LoadingTitle.ZIndex = 21
 
 local LoadingText = Label(
-    Loading, "Loading Patrick Hub. Please wait...",
+    Loading,
+    "Loading Patrick Hub. Please wait...",
     UDim2.new(1, -20, 0, 28),
-    UDim2.new(0, 10, 0.49, 0), 11
+    UDim2.new(0, 10, 0.49, 0),
+    11
 )
 LoadingText.ZIndex = 21
 
@@ -187,7 +193,7 @@ BarFill.Parent = BarBack
 Corner(BarFill, 8)
 
 --========================================================
--- JANELA PRINCIPAL
+-- JANELA
 --========================================================
 
 local Main = Instance.new("Frame")
@@ -207,9 +213,11 @@ Header.BackgroundTransparency = 1
 Header.Parent = Main
 
 local Title = Label(
-    Header, "Patrick-Hubs",
+    Header,
+    "Patrick-Hubs",
     UDim2.new(1, -105, 1, 0),
-    UDim2.fromOffset(14, 0), 20
+    UDim2.fromOffset(14, 0),
+    20
 )
 Title.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -243,7 +251,7 @@ local TabKey = Button(
 TabKey.TextSize = 12
 
 --========================================================
--- LISTA ROLÁVEL
+-- LISTA
 --========================================================
 
 local Scroll = Instance.new("ScrollingFrame")
@@ -270,9 +278,11 @@ Padding.PaddingBottom = UDim.new(0, 6)
 Padding.Parent = Scroll
 
 local Notice = Label(
-    Main, "",
+    Main,
+    "",
     UDim2.new(1, -20, 0, 20),
-    UDim2.new(0, 10, 1, -25), 10
+    UDim2.new(0, 10, 1, -25),
+    10
 )
 Notice.Visible = false
 
@@ -328,16 +338,20 @@ for index, data in ipairs(Options) do
     local Outline = Stroke(Card, 1.5)
 
     local Name = Label(
-        Card, data.name,
+        Card,
+        data.name,
         UDim2.new(1, -18, 0, 29),
-        UDim2.fromOffset(10, 4), 16
+        UDim2.fromOffset(10, 4),
+        16
     )
     Name.TextXAlignment = Enum.TextXAlignment.Left
 
     local Description = Label(
-        Card, data.label,
+        Card,
+        data.label,
         UDim2.new(1, -18, 0, 20),
-        UDim2.fromOffset(10, 35), 11
+        UDim2.fromOffset(10, 35),
+        11
     )
     Description.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -349,19 +363,24 @@ for index, data in ipairs(Options) do
 
         task.delay(0.12, function()
             if Card.Parent then
-                Tween(Card, 0.12, {BackgroundColor3 = BLACK})
-                Tween(Outline, 0.12, {Thickness = 1.5})
+                Tween(Card, 0.12, {
+                    BackgroundColor3 = BLACK
+                })
+                Tween(Outline, 0.12, {
+                    Thickness = 1.5
+                })
+
+                -- Corrige o desaparecimento do cartão.
+                Card.Visible = data.category == activeCategory
             end
         end)
 
         local code = ScriptCodes[data.name] or ""
 
-        -- Os slots COLE AQUI são apenas espaços reservados.
-        -- Não execute texto arbitrário automaticamente.
         if code:match("%S") and not code:find("COLE AQUI", 1, true) then
             Notice.Text = data.name .. ": código preenchido"
         else
-            Notice.Text = data.name .. ": campo COLE AQUI vazio"
+            Notice.Text = data.name .. ": cole o código no campo correspondente"
         end
 
         Notice.Visible = true
@@ -374,7 +393,7 @@ for index, data in ipairs(Options) do
 end
 
 --========================================================
--- ARRASTAR JANELA E BOLHA
+-- ARRASTAR
 --========================================================
 
 local function MakeDraggable(object, handle)
